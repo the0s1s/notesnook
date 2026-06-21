@@ -272,6 +272,18 @@ const features = {
       legacyPro: createLimit(true)
     }
   }),
+  templates: createFeature({
+    id: "templates",
+    title: "Templates",
+    error: () => `Templates are not available on this plan.`,
+    availability: {
+      free: createLimit(true),
+      essential: createLimit(true),
+      pro: createLimit(true),
+      believer: createLimit(true),
+      legacyPro: createLimit(true)
+    }
+  }),
   recurringReminders: createFeature({
     id: "recurringReminders",
     title: "Recurring reminders",
