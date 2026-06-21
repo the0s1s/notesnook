@@ -485,6 +485,8 @@ export type SettingItemMap = {
   dateFormat: string;
   defaultNotebook: string | undefined;
   defaultTag: string | undefined;
+  templateNotebook: string | undefined;
+  templateTag: string | undefined;
   profile: Profile | undefined;
 } & Record<`groupOptions:${GroupingKey}`, GroupOptions> &
   Record<

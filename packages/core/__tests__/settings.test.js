@@ -48,6 +48,32 @@ test("save trash cleanup interval", () =>
     expect(db.settings.getTrashCleanupInterval()).toBe(interval);
   }));
 
+test("set and get template notebook", () =>
+  databaseTest().then(async (db) => {
+    await db.settings.setTemplateNotebook("notebook-id");
+    expect(db.settings.getTemplateNotebook()).toBe("notebook-id");
+  }));
+
+test("set and get template tag", () =>
+  databaseTest().then(async (db) => {
+    await db.settings.setTemplateTag("tag-id");
+    expect(db.settings.getTemplateTag()).toBe("tag-id");
+  }));
+
+test("clear template notebook by setting it to undefined", () =>
+  databaseTest().then(async (db) => {
+    await db.settings.setTemplateNotebook("notebook-id");
+    await db.settings.setTemplateNotebook(undefined);
+    expect(db.settings.getTemplateNotebook()).toBeUndefined();
+  }));
+
+test("clear template tag by setting it to undefined", () =>
+  databaseTest().then(async (db) => {
+    await db.settings.setTemplateTag("tag-id");
+    await db.settings.setTemplateTag(undefined);
+    expect(db.settings.getTemplateTag()).toBeUndefined();
+  }));
+
 const GROUP_OPTIONS_BY_ID_TESTS = ["notebook", "tag", "color"];
 
 for (const type of GROUP_OPTIONS_BY_ID_TESTS) {

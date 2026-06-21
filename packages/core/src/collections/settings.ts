@@ -62,6 +62,8 @@ const defaultSettings: SettingItemMap = {
   titleFormat: "Note $date$ $time$",
   defaultNotebook: undefined,
   defaultTag: undefined,
+  templateNotebook: undefined,
+  templateTag: undefined,
   trashCleanupInterval: 7,
   profile: undefined,
 
@@ -214,6 +216,22 @@ export class Settings implements ICollection {
 
   getDefaultTag() {
     return this.get("defaultTag");
+  }
+
+  setTemplateNotebook(item: string | undefined) {
+    return this.set("templateNotebook", item);
+  }
+
+  getTemplateNotebook() {
+    return this.get("templateNotebook");
+  }
+
+  setTemplateTag(item: string | undefined) {
+    return this.set("templateTag", item);
+  }
+
+  getTemplateTag() {
+    return this.get("templateTag");
   }
 
   setTitleFormat(format: string) {
