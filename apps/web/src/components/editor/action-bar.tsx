@@ -37,10 +37,12 @@ import {
   Redo,
   Search,
   TableOfContents,
+  Template,
   Trash,
   Undo,
   Unlock
 } from "../icons";
+import { TemplatePicker } from "../../dialogs/template-picker";
 import { ScrollContainer } from "@notesnook/ui";
 import {
   SaveState,
@@ -177,6 +179,17 @@ export function EditorActionBar() {
         activeSession.type !== "diff" &&
         activeSession.type !== "conflicted",
       onClick: () => editorManager?.editor?.startSearch()
+    },
+    {
+      title: strings.insertTemplate(),
+      icon: Template,
+      enabled:
+        activeSession &&
+        activeSession.type !== "new" &&
+        activeSession.type !== "locked" &&
+        activeSession.type !== "diff" &&
+        activeSession.type !== "conflicted",
+      onClick: () => TemplatePicker.show({ mode: "insert" })
     },
     {
       title: strings.properties(),

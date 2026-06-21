@@ -35,7 +35,8 @@ import {
   Reminder as ReminderIcon,
   Tag as TagIcon,
   FocusMode,
-  NormalMode
+  NormalMode,
+  Template
 } from "../../components/icons";
 import { trashMenuItems } from "../../components/trash-item";
 import { hashNavigate, navigate } from "../../navigation";
@@ -45,6 +46,7 @@ import { useStore as useAppStore } from "../../stores/app-store";
 import { useStore as useThemeStore } from "../../stores/theme-store";
 import { AttachmentsDialog } from "../attachments-dialog";
 import { CreateColorDialog } from "../create-color-dialog";
+import { TemplatePicker } from "../template-picker";
 import { noteMenuItems } from "../../components/note";
 import { MenuItem } from "@notesnook/ui";
 import { notebookMenuItems } from "../../components/notebook";
@@ -205,6 +207,22 @@ const staticCommands: Command[] = [
     icon: Plus,
     action: () => useEditorStore.getState().newSession(),
     group: strings.create(),
+    type: "command"
+  },
+  {
+    id: "new-note-from-template",
+    title: strings.newNoteFromTemplate(),
+    icon: Template,
+    action: () => TemplatePicker.show({ mode: "new" }),
+    group: strings.create(),
+    type: "command"
+  },
+  {
+    id: "insert-template",
+    title: strings.insertTemplate(),
+    icon: Template,
+    action: () => TemplatePicker.show({ mode: "insert" }),
+    group: strings.editor(),
     type: "command"
   },
   {

@@ -19,7 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Box } from "@theme-ui/components";
-import { Close, AddReminder, Menu } from "../icons";
+import { Close, AddReminder, Menu, Template } from "../icons";
+import { TemplatePicker } from "../../dialogs/template-picker";
 import { useStore as useSearchStore } from "../../stores/search-store";
 import useMobile from "../../hooks/use-mobile";
 import { debounce, usePromise } from "@notesnook/common";
@@ -161,6 +162,16 @@ function Header(props: RouteContainerProps) {
                   icon: AddReminder,
                   testId: "create-reminder-button",
                   ...CREATE_BUTTON_MAP.reminders
+                }
+              ]
+            : []),
+          ...(type === "notes"
+            ? [
+                {
+                  icon: Template,
+                  testId: "new-note-from-template-button",
+                  title: strings.newNoteFromTemplate(),
+                  onClick: () => TemplatePicker.show({ mode: "new" })
                 }
               ]
             : [])
