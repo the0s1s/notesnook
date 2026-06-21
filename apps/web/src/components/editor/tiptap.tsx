@@ -746,6 +746,9 @@ function toIEditor(editor: Editor): IEditor {
         })
         .run();
     },
+    insertContent: (html) => {
+      editor?.chain().insertContent(html).run();
+    },
     attachFile: (file: Attachment) =>
       file.type === "image"
         ? editor.commands.insertImage(file)

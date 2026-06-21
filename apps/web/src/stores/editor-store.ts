@@ -1135,7 +1135,7 @@ class EditorStore extends BaseStore<EditorStore> {
     }
   };
 
-  newSession = () => {
+  newSession = (content?: NoteContent<false>) => {
     const { activeTabId, activateSession, getActiveTab } = this.get();
     if (!activeTabId || getActiveTab()?.pinned) {
       this.addTab();
@@ -1143,14 +1143,17 @@ class EditorStore extends BaseStore<EditorStore> {
     }
 
     const session = this.getActiveSession();
-    if (session?.type === "new") return activateSession(session.id);
+    // when content is provided (e.g. from a template) we always create a fresh
+    // session so the content is applied instead of reusing the empty one.
+    if (session?.type === "new" && !content) return activateSession(session.id);
 
     const sessionId = tabSessionHistory.add(activeTabId);
     this.addSession({
       type: "new",
       id: sessionId,
       tabId: activeTabId,
-      saveState: SaveState.NotSaved
+      saveState: SaveState.NotSaved,
+      content
     });
   };
 
