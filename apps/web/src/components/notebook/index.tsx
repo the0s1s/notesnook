@@ -186,10 +186,12 @@ export const notebookMenuItems: (
   context?: { refresh?: () => void; isRoot?: boolean }
 ) => Promise<MenuItem[]> = async (notebook, ids = [], context) => {
   const defaultNotebook = db.settings.getDefaultNotebook();
+  const templateNotebook = db.settings.getTemplateNotebook();
   const features = await areFeaturesAvailable([
     "shortcuts",
     "defaultNotebookAndTag",
-    "customHomepage"
+    "customHomepage",
+    "templates"
   ]);
   return [
     {
@@ -222,6 +224,21 @@ export const notebookMenuItems: (
         const isDefault = defaultNotebook === notebook.id;
         await db.settings.setDefaultNotebook(
           isDefault ? undefined : notebook.id
+        );
+      })
+    },
+    {
+      type: "button",
+      key: "set-as-template-source",
+      title: strings.setAsTemplateSource(),
+      isChecked: templateNotebook === notebook.id,
+      icon: NotebookIcon.path,
+      premium: !features.templates.isAllowed,
+      onClick: withFeatureCheck(features.templates, async () => {
+        const templateNotebook = db.settings.getTemplateNotebook();
+        const isTemplate = templateNotebook === notebook.id;
+        await db.settings.setTemplateNotebook(
+          isTemplate ? undefined : notebook.id
         );
       })
     },

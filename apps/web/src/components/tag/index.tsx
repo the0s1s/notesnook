@@ -110,10 +110,12 @@ export const tagMenuItems: (
   ids?: string[]
 ) => Promise<MenuItem[]> = async (tag, ids = []) => {
   const defaultTag = db.settings.getDefaultTag();
+  const templateTag = db.settings.getTemplateTag();
   const features = await areFeaturesAvailable([
     "shortcuts",
     "defaultNotebookAndTag",
-    "customHomepage"
+    "customHomepage",
+    "templates"
   ]);
   return [
     {
@@ -134,6 +136,19 @@ export const tagMenuItems: (
         const defaultTag = db.settings.getDefaultTag();
         const isDefault = defaultTag === tag.id;
         await db.settings.setDefaultTag(isDefault ? undefined : tag.id);
+      })
+    },
+    {
+      type: "button",
+      key: "set-as-template-source",
+      title: strings.setAsTemplateSource(),
+      isChecked: templateTag === tag.id,
+      icon: TagIcon.path,
+      premium: !features.templates.isAllowed,
+      onClick: withFeatureCheck(features.templates, async () => {
+        const templateTag = db.settings.getTemplateTag();
+        const isTemplate = templateTag === tag.id;
+        await db.settings.setTemplateTag(isTemplate ? undefined : tag.id);
       })
     },
     createSetDefaultHomepageMenuItem(tag.id, tag.type, features.customHomepage),
