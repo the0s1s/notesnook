@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import type { Page } from "@playwright/test";
+import type { ElectronApplication, Page } from "@playwright/test";
 import {
   downloadAndReadFile,
   getTestId,
@@ -33,8 +33,17 @@ import {
 } from "./utils";
 import { NavigationMenuModel } from "./navigation-menu.model";
 import { AppModel } from "./app.model";
-import { getAppFromPage } from "../../../desktop/__tests__/electron-test/utils";
 import { readFile } from "node:fs/promises";
+
+// The electron `app` is injected onto the browser context by the desktop
+// electron-test fixtures when running in TEST_DESKTOP mode. Read it locally
+// instead of importing from the desktop package, which would load a second
+// (incompatible) copy of @playwright/test into the web e2e runner.
+function getAppFromPage(page: Page) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - `app` is added by the desktop electron test fixtures
+  return page.context().app as ElectronApplication;
+}
 
 export class SettingsViewModel {
   private readonly page: Page;

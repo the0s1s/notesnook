@@ -24,7 +24,7 @@ import {
   PlaywrightWorkerArgs,
   PlaywrightWorkerOptions
 } from "@playwright/test";
-import { ElectronTestFixtures } from "../../../desktop/__tests__/electron-test";
+import type { ElectronTestFixtures } from "../../../desktop/__tests__/electron-test";
 
 export { expect } from "@playwright/test";
 export type { Page, Browser } from "@playwright/test";
