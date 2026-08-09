@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
         uses: ./.github/actions/setup-node-with-cache
@@ -107,7 +107,7 @@ jobs:
           target_commitish: ${{ github.ref }}
 
       - name: Generate flatpak sources
-        if: inputs.publish-github && inputs.build-linux
+        if: inputs.build-linux
         run: |
           sudo apt-get update
           sudo apt-get install -y --quiet flatpak flatpak-builder pipx
@@ -127,6 +127,13 @@ jobs:
           files: ./generated-sources.json
           prerelease: ${{ endsWith(steps.app_metadata.outputs.app_version, '-beta') }}
 
+      - name: Upload generated-sources.json as artifact
+        uses: actions/upload-artifact@v4
+        if: inputs.build-linux
+        with:
+          name: generated-sources
+          path: ./generated-sources.json
+
   build-macos:
     name: Build for macOS
     needs: build
@@ -135,7 +142,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
         uses: ./.github/actions/setup-node-with-cache
@@ -239,7 +246,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
         uses: ./.github/actions/setup-node-with-cache
@@ -307,7 +314,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
         uses: ./.github/actions/setup-node-with-cache
@@ -371,7 +378,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v2

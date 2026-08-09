@@ -27,6 +27,7 @@ import { ThemeDark, ThemeLight, ThemeDefinition } from "@notesnook/theme";
 import { DayFormat, WeekFormat, Reminder } from "@notesnook/core";
 import { db } from "../common/database";
 import { EDITOR_LINE_HEIGHT } from "../utils/constants";
+import { ShortcutItem } from "react-native-actions-shortcuts";
 export const HostIds = [
   "API_HOST",
   "AUTH_HOST",
@@ -104,6 +105,7 @@ export type Settings = {
   checkForUpdates?: boolean;
   defaultLineHeight: number;
   imageCompression: "ask-every-time" | "enabled" | "disabled";
+  keepScreenOn?: boolean;
 };
 
 type DimensionsType = {
@@ -148,6 +150,7 @@ export interface SettingStore {
   refresh: () => void;
   inboxEnabled: boolean;
   setInboxEnabled: (inboxEnabled: boolean) => void;
+  pendingShortcut: ShortcutItem | null;
 }
 
 const { width, height } = Dimensions.get("window");
@@ -213,7 +216,8 @@ export const defaultSettings: SettingStore["settings"] = {
   lastFullBackupDate: 0,
   checkForUpdates: true,
   defaultLineHeight: EDITOR_LINE_HEIGHT.DEFAULT,
-  imageCompression: "ask-every-time"
+  imageCompression: "ask-every-time",
+  keepScreenOn: true
 };
 
 export const useSettingStore = create<SettingStore>((set, get) => ({
@@ -267,5 +271,6 @@ export const useSettingStore = create<SettingStore>((set, get) => ({
     });
   },
   inboxEnabled: false,
-  setInboxEnabled: (inboxEnabled) => set({ inboxEnabled })
+  setInboxEnabled: (inboxEnabled) => set({ inboxEnabled }),
+  pendingShortcut: null
 }));
